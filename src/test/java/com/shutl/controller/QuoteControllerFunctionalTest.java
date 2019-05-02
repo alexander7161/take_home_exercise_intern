@@ -37,7 +37,7 @@ public class QuoteControllerFunctionalTest {
 
     @Test
     public void testBasicService() throws Exception {
-        Quote quoteData = new Quote("SW1A1AA", "EC2A3LT");
+        Quote quoteData = new Quote("SW1A1AA", "EC2A3LT", "bicycle");
         MvcResult result = this.mockMvc.perform(post("/quote")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(quoteData)))
@@ -45,14 +45,15 @@ public class QuoteControllerFunctionalTest {
             .andReturn();
 
         Quote quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
-        assertEquals(quote.getPickupPostcode(), "SW1A1AA");
-        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
-        assertEquals(quote.getPrice(), new Long(316));
+        assertEquals("SW1A1AA", quote.getPickupPostcode());
+        assertEquals("EC2A3LT", quote.getDeliveryPostcode());
+        assertEquals("bicycle",quote.getVehicle());
+        assertEquals(new Long(348), quote.getPrice());
     }
 
     @Test
     public void testVariablePricingByDistance() throws Exception {
-        Quote quoteData = new Quote("SW1A1AA", "EC2A3LT");
+        Quote quoteData = new Quote("SW1A1AA", "EC2A3LT", "bicycle");
         MvcResult result = this.mockMvc.perform(post("/quote")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(quoteData)))
@@ -60,11 +61,12 @@ public class QuoteControllerFunctionalTest {
             .andReturn();
 
         Quote quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
-        assertEquals(quote.getPickupPostcode(), "SW1A1AA");
-        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
-        assertEquals(quote.getPrice(), new Long(316));
+        assertEquals("SW1A1AA", quote.getPickupPostcode());
+        assertEquals("EC2A3LT", quote.getDeliveryPostcode());
+        assertEquals("bicycle",quote.getVehicle());
+        assertEquals(new Long(348), quote.getPrice());
 
-        quoteData = new Quote("AL15WD", "EC2A3LT");
+        quoteData = new Quote("AL15WD", "EC2A3LT", "bicycle");
         result = this.mockMvc.perform(post("/quote")
                 .contentType("application/json")
                 .content(objectMapper.writeValueAsString(quoteData)))
@@ -72,8 +74,38 @@ public class QuoteControllerFunctionalTest {
             .andReturn();
 
         quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
-        assertEquals(quote.getPickupPostcode(), "AL15WD");
-        assertEquals(quote.getDeliveryPostcode(), "EC2A3LT");
-        assertEquals(quote.getPrice(), new Long(305));
+        assertEquals("AL15WD", quote.getPickupPostcode());
+        assertEquals("EC2A3LT",quote.getDeliveryPostcode());
+        assertEquals("bicycle",quote.getVehicle());
+        assertEquals(new Long(336), quote.getPrice());
+    }
+
+    @Test
+    public void testVariablePricingByVehicle() throws Exception {
+        Quote quoteData = new Quote("SW1A1AA", "EC2A3LT", "bicycle");
+        MvcResult result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        Quote quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals("SW1A1AA", quote.getPickupPostcode());
+        assertEquals("EC2A3LT", quote.getDeliveryPostcode());
+        assertEquals("bicycle",quote.getVehicle());
+        assertEquals(new Long(348), quote.getPrice());
+
+        quoteData = new Quote("SW1A1AA", "EC2A3LT", "large_van");
+        result = this.mockMvc.perform(post("/quote")
+                .contentType("application/json")
+                .content(objectMapper.writeValueAsString(quoteData)))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        quote = objectMapper.readValue(result.getResponse().getContentAsString(), Quote.class);
+        assertEquals("SW1A1AA", quote.getPickupPostcode());
+        assertEquals("EC2A3LT", quote.getDeliveryPostcode());
+        assertEquals("large_van",quote.getVehicle());
+        assertEquals(new Long(442), quote.getPrice());
     }
 }
