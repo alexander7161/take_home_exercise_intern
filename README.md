@@ -118,6 +118,6 @@ gradle bootRun
 
 Make quote request:
 ```
-echo '{"pickupPostcode": "SW1A1AA", "deliveryPostcode": "EC2A3LT" }' | \
+echo '{"pickupPostcode": "SW1A1AA", "deliveryPostcode": "EC2A3LT", "vehicle": "bicycle" }' | \
 curl -d @- http://localhost:8080/quote --header "Content-Type:application/json"
 ```
