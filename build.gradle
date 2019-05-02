@@ -2,6 +2,11 @@ apply plugin: 'java'
 apply plugin: 'spring-boot'
 apply plugin: 'idea'
 
+
+springBoot {
+  mainClass = "com.shutl.Application"
+}
+
 repositories {
     mavenCentral()
     maven { url 'http://repo.spring.io/milestone' }
