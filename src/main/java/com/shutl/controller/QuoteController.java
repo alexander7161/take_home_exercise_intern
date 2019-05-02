@@ -37,7 +37,7 @@ public class QuoteController {
             case "large_van":
                 return 1.40;
             default:
-                return 1;
+                throw new VehicleNotValidException(vehicle);
         }
     }
 }
