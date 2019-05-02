@@ -10,32 +10,45 @@ export default ({
 	setRequest: SetRequest;
 }) => (
 	<form>
-		<input
-			type="text"
-			name="pickup_postcode"
-			value={request.pickupPostcode}
-			onChange={event => {
-				setRequest({ ...request, pickupPostcode: event.target.value });
-			}}
-		/>
-		<input
-			type="text"
-			name="delivery_postcode"
-			value={request.deliveryPostcode}
-			onChange={event => {
-				setRequest({ ...request, deliveryPostcode: event.target.value });
-			}}
-		/>
-		<select
-			name="vehicle"
-			value={request.vehicle}
-			onChange={event => {
-				setRequest({ ...request, vehicle: event.target.value });
-			}}
-		>
-			{Object.keys(VEHICLES).map(V => (
-				<option value={V}>{VEHICLES[V]}</option>
-			))}
-		</select>
+		<label>
+			Pickup Postcode:
+			<input
+				type="text"
+				name="pickup_postcode"
+				value={request.pickupPostcode}
+				onChange={event => {
+					setRequest({ ...request, pickupPostcode: event.target.value });
+				}}
+			/>
+		</label>
+		<br />
+		<label>
+			Delivery Postcode:
+			<input
+				type="text"
+				name="delivery_postcode"
+				value={request.deliveryPostcode}
+				onChange={event => {
+					setRequest({ ...request, deliveryPostcode: event.target.value });
+				}}
+			/>
+		</label>
+		<br />
+		<label>
+			Vehicle:
+			<select
+				name="vehicle"
+				value={request.vehicle}
+				onChange={event => {
+					setRequest({ ...request, vehicle: event.target.value });
+				}}
+			>
+				{Object.keys(VEHICLES).map(V => (
+					<option key={V} value={V}>
+						{VEHICLES[V]}
+					</option>
+				))}
+			</select>
+		</label>
 	</form>
 );
