@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { Form, QuoteContainer } from "./components";
+import { Form, QuoteDisplay, Container } from "./components";
 import { QuoteRequest, Quote, SetQuote, SetRequest } from "./types";
+import { QuoteContainer } from "./components/Quote";
 
 const validRequest = (request: QuoteRequest): boolean =>
 	request.deliveryPostcode !== "" && request.pickupPostcode !== "";
@@ -38,14 +39,15 @@ const App: React.FC = () => {
 		}
 	}, [request]);
 	return (
-		<div className="App">
+		<Container>
 			<Form request={request} setRequest={setRequest} />
+			<br />
 			{validRequest(request) ? (
-				<QuoteContainer quote={quote} />
+				<QuoteDisplay quote={quote} />
 			) : (
-				"Please fill in the form"
+				<QuoteContainer>Please fill in the form</QuoteContainer>
 			)}
-		</div>
+		</Container>
 	);
 };
 
