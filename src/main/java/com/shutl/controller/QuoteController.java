@@ -13,8 +13,31 @@ public class QuoteController {
 
     @RequestMapping(value = "/quote", method = POST)
     public @ResponseBody Quote quote(@RequestBody Quote quote) {
-        Long price = Math.abs((Long.valueOf(quote.getDeliveryPostcode(), 36) - Long.valueOf(quote.getPickupPostcode(), 36))/100000000);
+        Long price = this.getPrice(quote);
 
-        return new Quote(quote.getPickupPostcode(), quote.getDeliveryPostcode(), price);
+        return new Quote(quote.getPickupPostcode(), quote.getDeliveryPostcode(), quote.getVehicle(), price);
+    }
+
+    private Long getPrice(Quote quote) {
+        Long price = Math.abs((Long.valueOf(quote.getDeliveryPostcode(), 36) - Long.valueOf(quote.getPickupPostcode(), 36))/100000000);
+        double markup = this.getVehicleMarkup(quote.getVehicle());
+        return Math.round(price * markup);
+    }
+
+    private double getVehicleMarkup(String vehicle) {
+        switch (vehicle) {
+            case "bicycle":
+                return 1.10;
+            case "motorbike":
+                return 1.15;
+            case "parcel_car":
+                return 1.20;
+            case "small_van":
+                return 1.30;
+            case "large_van":
+                return 1.40;
+            default:
+                throw new VehicleNotValidException(vehicle);
+        }
     }
 }
