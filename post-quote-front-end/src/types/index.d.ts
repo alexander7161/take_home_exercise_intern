@@ -27,3 +27,7 @@ export type SetRequest = Dispatch<
 		vehicle: string;
 	}>
 >;
+
+interface Vehicles {
+	[key: string]: string;
+}

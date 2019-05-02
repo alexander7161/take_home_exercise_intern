@@ -1,5 +1,6 @@
 import React from "react";
 import { QuoteRequest, SetRequest } from "../types";
+import { VEHICLES } from ".";
 
 export default ({
 	request,
@@ -25,5 +26,16 @@ export default ({
 				setRequest({ ...request, deliveryPostcode: event.target.value });
 			}}
 		/>
+		<select
+			name="vehicle"
+			value={request.vehicle}
+			onChange={event => {
+				setRequest({ ...request, vehicle: event.target.value });
+			}}
+		>
+			{Object.keys(VEHICLES).map(V => (
+				<option value={V}>{VEHICLES[V]}</option>
+			))}
+		</select>
 	</form>
 );
